@@ -1,5 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
+import {Service} from "typedi";
 
+@Service()
 export class CreateUsersTable1717464503395 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
@@ -11,5 +13,5 @@ export class CreateUsersTable1717464503395 implements MigrationInterface {
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query('DROP TABLE `users`');
     }
-    
+
 }

@@ -5,12 +5,13 @@ export class UserDto implements IUserDto {
     firstname: string;
     lastname: string;
     email: string;
+    createdAt: Date;
 
-    constructor(user: UserDto) {
-        for (const property in user) {
-            if (user.hasOwnProperty(property)) {
-                this[property] = user[property];
-            }
-        }
+    constructor(user: IUserDto) {
+        this.id = user.id;
+        this.firstname = user.firstname;
+        this.lastname = user.lastname;
+        this.email = user.email;
+        this.createdAt = user.createdAt;
     }
 }

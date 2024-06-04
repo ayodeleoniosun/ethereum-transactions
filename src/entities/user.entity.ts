@@ -1,5 +1,13 @@
-import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
-import {IsDefined, IsEmail, IsString, MaxLength} from "class-validator";
+import {
+    BeforeInsert,
+    BeforeUpdate,
+    Column,
+    CreateDateColumn,
+    Entity,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
+} from "typeorm";
+import {validateOrReject} from "class-validator";
 
 @Entity({name: 'users'})
 
@@ -7,26 +15,16 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({type: 'varchar', length: 255, nullable: false})
-    @IsDefined()
-    @IsString()
-    @MaxLength(255, {message: 'Firstname must not exceed 100 characters'})
+    @Column({type: 'varchar', length: 100, nullable: false})
     firstname: string;
 
-    @Column({type: 'varchar', length: 255, nullable: false})
-    @IsDefined()
-    @IsString()
-    @MaxLength(255, {message: 'Lastname must not exceed 100 characters'})
+    @Column({type: 'varchar', length: 100, nullable: false})
     lastname: string;
 
     @Column({type: 'varchar', nullable: false, unique: true})
-    @IsDefined()
-    @IsEmail()
     email: string;
 
     @Column({type: 'varchar', nullable: false})
-    @IsDefined()
-    @IsString()
     password: string;
 
     @CreateDateColumn()
@@ -34,6 +32,16 @@ export class User {
 
     @UpdateDateColumn()
     updatedAt: Date;
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async validate() {
+        try {
+            await validateOrReject(this);
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
 }
 
 export interface IUserDto {
@@ -41,4 +49,5 @@ export interface IUserDto {
     firstname: string,
     lastname: string,
     email: string,
+    createdAt: Date,
 }
