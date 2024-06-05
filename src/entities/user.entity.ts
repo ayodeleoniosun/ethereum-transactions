@@ -1,13 +1,4 @@
-import {
-    BeforeInsert,
-    BeforeUpdate,
-    Column,
-    CreateDateColumn,
-    Entity,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn
-} from "typeorm";
-import {validateOrReject} from "class-validator";
+import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
 
 @Entity({name: 'users'})
 
@@ -32,16 +23,6 @@ export class User {
 
     @UpdateDateColumn()
     updatedAt: Date;
-
-    @BeforeInsert()
-    @BeforeUpdate()
-    async validate() {
-        try {
-            await validateOrReject(this);
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
 }
 
 export interface IUserDto {

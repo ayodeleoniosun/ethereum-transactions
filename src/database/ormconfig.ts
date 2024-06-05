@@ -1,7 +1,7 @@
 import {DataSource} from 'typeorm';
 import config from "../config";
 
-export const connectionOptions = new DataSource({
+export const dataSource = new DataSource({
     type: 'mysql',
     name: 'default',
     host: config.database.host,

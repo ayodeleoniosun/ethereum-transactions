@@ -1,12 +1,14 @@
-import {UserRegisterPayloadDto} from "../dtos/user.register.payload.dto";
+import {UserRegisterPayloadDto} from "../dtos/auth/user.register.payload.dto";
 import {UserDto} from "../dtos/user.dto";
-import bcrypt from 'bcryptjs';
 import HttpException from "../utils/exceptions/http.exception";
 import {ErrorMessages} from "../utils/enums/error.messages";
 import * as HttpStatus from 'http-status';
 import {Service} from "typedi";
 import {IUserDto} from "../entities/user.entity";
 import {UserRepository} from "../repositories/user.repository";
+import {UserLoginPayloadDto} from "../dtos/auth/user.login.payload.dto";
+import {comparePassword, hashPassword} from "../utils/helpers/password_hash";
+import {generateToken} from "../utils/helpers/jwt";
 
 @Service()
 export class AuthService {
@@ -24,9 +26,32 @@ export class AuthService {
             firstname: user.firstname,
             lastname: user.lastname,
             email: user.email,
-            password: bcrypt.hashSync(user.password, 10)
+            password: hashPassword(user.password)
         });
 
         return new UserDto(newUser);
+    }
+
+    async login(user: UserLoginPayloadDto): Promise<object> {
+        const existingUser = await this.userRepository.findUserByEmail(user.email);
+
+        if (!existingUser) {
+            throw new HttpException(ErrorMessages.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+        }
+
+        const result = comparePassword(user.password, existingUser.password);
+
+        if (!result) {
+            throw new HttpException(ErrorMessages.INCORRECT_LOGIN_CREDENTIALS);
+        }
+
+        const token = await generateToken(existingUser);
+
+        if (token) {
+            return {
+                token,
+                user: new UserDto(existingUser)
+            }
+        }
     }
 }
