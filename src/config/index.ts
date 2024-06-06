@@ -14,4 +14,5 @@ export default {
         password: config.DB_PASSWORD,
         name: config.DB_NAME
     },
+    ethereum_api: config.ETHEREUM_API
 }

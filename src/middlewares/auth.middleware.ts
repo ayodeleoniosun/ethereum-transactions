@@ -9,7 +9,7 @@ import {Service} from "typedi";
 import {UserRepository} from "../repositories/user.repository";
 
 @Service()
-export class AuthService {
+export class AuthMiddleware {
     public constructor(private userRepository: UserRepository) {
     }
 

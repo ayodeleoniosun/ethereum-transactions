@@ -9,7 +9,7 @@ import {AuthService} from "../services/auth.service";
 import * as HttpStatus from 'http-status';
 import {UserLoginPayloadDto} from "../dtos/auth/user.login.payload.dto";
 
-@JsonController('/api/auth')
+@JsonController('/auth')
 @Service()
 export class AuthController {
     public constructor(private authService: AuthService) {

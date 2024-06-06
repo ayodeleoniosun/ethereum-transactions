@@ -17,7 +17,7 @@ export class AuthService {
 
     async register(user: UserRegisterPayloadDto): Promise<IUserDto> {
         const existingUser = await this.userRepository.findUserByEmail(user.email);
-
+        
         if (existingUser) {
             throw new HttpException(ErrorMessages.USER_ALREADY_EXISTS, HttpStatus.CONFLICT);
         }

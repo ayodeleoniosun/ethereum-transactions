@@ -1,11 +1,10 @@
-import {connectToDatabase} from "./database/connection";
-
-import {app} from './app';
 import config from "./config";
+import {server} from './sockets';
+import {connectToDatabase} from "./database/connection";
 
 const {port} = config;
 
-app.listen(port, async () => {
+server.listen(port, async () => {
     console.log(`Server running on port ${port}`);
     await connectToDatabase();
 });
