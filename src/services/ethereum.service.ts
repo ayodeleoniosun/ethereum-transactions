@@ -1,5 +1,5 @@
 import {Service} from "typedi";
-import config from '../config/index';
+import config from '../config';
 import axios from "axios";
 import HttpException from "../utils/exceptions/http.exception";
 import * as HttpStatus from "http-status";

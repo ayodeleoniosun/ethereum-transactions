@@ -19,8 +19,7 @@ let blockchainTransactions;
 
 socketIo.on('connection', (socket) => {
     console.log(socket.id + ' connected');
-    console.log(typeof socketIo);
-
+    
     adminIo.on('connection', () => {
         console.log(socket.id + ' connected to admin namespace with username');
     });

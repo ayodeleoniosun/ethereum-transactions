@@ -10,10 +10,8 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY src/server .
+COPY . .
 
 RUN npm run build
-
-EXPOSE 8085
 
 CMD ["npx", "nodemon", "/app/src/server.ts"]

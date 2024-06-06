@@ -1,7 +1,7 @@
 let messages = document.getElementById('messages');
 
-const socket = io('http://localhost:3000');
-io('http://localhost:3000/admin');
+const socket = io('http://localhost:3001');
+io('http://localhost:3001/admin');
 
 socket.on('connect', () => {
     displayMessage("You connected with id " + socket.id);

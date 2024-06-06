@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import {User} from "../../entities/user.entity";
 import jwt from "jsonwebtoken";
-import config from '../../config/index';
+import config from '../../config';
 import HttpException from "../exceptions/http.exception";
 import {ErrorMessages} from "../enums/error.messages";
 import * as HttpStatus from 'http-status';

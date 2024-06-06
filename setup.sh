@@ -1,8 +1,19 @@
 #!/bin/sh
-echo "INSTALL DEPENDENCIES"
-npm install
-echo "RUN BUILD"
-npm run build
-echo "RUN DB MIGRATIONS"
-npm run migration:run
-echo "SETUP COMPLETED"
+set -e
+
+GREEN=$(tput setaf 2)
+PINK=$(tput setaf 5)
+
+echo "${PINK}Building docker images ..."
+
+# Build docker images
+docker-compose build
+
+# Spring up docker containers in detached mode
+docker-compose up -d --force-recreate
+
+echo "${PINK}Running migrations ..."
+
+docker-compose exec app npm run migrate
+
+echo "${GREEN} Application dockerized!"

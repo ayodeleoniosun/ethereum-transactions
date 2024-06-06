@@ -1,31 +1,43 @@
 version: '3.8'
 
 services:
-  node-app:
-    build: src/server
+  app:
+    build: ./
+    container_name: app
     image: node-app
-    environment:
-      - MONGODB_URL=mongodb://mongodb:27017/store
+    env_file: ./.env
     ports:
-      - '8085:8085'
+      - '3001:3001'
+    environment:
+      - APP_PORT=$APP_PORT
+      - DB_HOST=$DB_HOST
+      - DB_USER=$DB_USERNAME
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_NAME=$DB_NAME
     depends_on:
-      - mongodb
+      - mysqldb
     volumes:
       - .:/app
     networks:
       - node-network
 
-  mongodb:
-    image: mongo:6-jammy
+  mysqldb:
+    image: mysql:8
+    container_name: mysqldb
+    restart: unless-stopped
+    env_file: ./.env
     ports:
-      - '27017:27017'
+      - '3307:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
+      - MYSQL_DATABASE=$DB_NAME
     volumes:
-      - db_data:/data/db
+      - db:/var/lib/mysql
     networks:
       - node-network
 
 volumes:
-  db_data:
+  db:
 
 networks:
   node-network:

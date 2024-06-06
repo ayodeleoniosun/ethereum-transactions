@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "7d3f9eed-bc04-4928-8188-5b09a9919de2",
+		"name": "Blockchain Transactions",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18037473"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\" : \"ayodele\",\n    \"lastname\" : \"oniosun\",\n    \"email\": \"ayodeleoniosun@gmail.com\",\n    \"password\": \"A12345678a.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localHost}}/auth/register",
+							"host": [
+								"{{localHost}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ayodeleoniosun63@gmail.com\",\n    \"password\": \"A,12345.a\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localHost}}/auth/login",
+							"host": [
+								"{{localHost}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "localHost",
+			"value": "http://127.0.0.1:3001/api",
+			"type": "string"
+		},
+		{
+			"key": "Authorization",
+			"value": "Bearer {{your token here}}",
+			"type": "string"
+		}
+	]
+}

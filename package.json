@@ -1,5 +1,5 @@
 {
-  "name": "stream-ethereum-blockchain-transactions",
+  "name": "ethereum-transactions",
   "version": "1.0.0",
   "description": "An app to stream ethereum blockchain transactions in real time using socket.io, node.js, typescript, typeorm",
   "main": "index.js",
@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ayodeleoniosun/stream-ethereum-blockchain-transactions"
+    "url": "git+https://github.com/ayodeleoniosun/ethereum-transactions"
   },
   "author": "Ayodele Oniosun",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ayodeleoniosun/stream-ethereum-blockchain-transactions/issues"
+    "url": "https://github.com/ayodeleoniosun/ethereum-transactions/issues"
   },
-  "homepage": "https://github.com/ayodeleoniosun/stream-ethereum-blockchain-transactions#readme",
+  "homepage": "https://github.com/ayodeleoniosun/ethereum-transactions#readme",
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
     "@freshgum/typedi": "^0.7.2",
