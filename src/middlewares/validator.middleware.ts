@@ -8,8 +8,8 @@ import * as HttpStatus from "http-status";
 @Service()
 export class CustomErrorHandler implements ExpressErrorMiddlewareInterface {
     error(error: any, request: any, response: any) {
-        const constraints = error.errors[0].constraints;
-        const errorMessage = Object.values(constraints)[0];
+        const constraints: object = error.errors[0].constraints;
+        const errorMessage: string = Object.values(constraints)[0];
 
         const errorResponse = new ResponseDto(ResponseStatus.ERROR, errorMessage);
 

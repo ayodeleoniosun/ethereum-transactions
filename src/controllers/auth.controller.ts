@@ -24,7 +24,7 @@ export class AuthController {
 
             return res.status(HttpStatus.CREATED).json(successResponse);
 
-        } catch (error) {
+        } catch (error: any) {
             const errorResponse = new ResponseDto(ResponseStatus.ERROR, error.message);
 
             return res.status(error.statusCode ?? HttpStatus.BAD_REQUEST).json(errorResponse);
@@ -40,7 +40,7 @@ export class AuthController {
 
             return res.status(HttpStatus.OK).json(successResponse);
 
-        } catch (error) {
+        } catch (error: any) {
             const errorResponse = new ResponseDto(ResponseStatus.ERROR, error.message);
 
             return res.status(error.statusCode ?? HttpStatus.BAD_REQUEST).json(errorResponse);

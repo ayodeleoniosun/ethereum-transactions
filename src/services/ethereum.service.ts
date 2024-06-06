@@ -18,7 +18,7 @@ export class EthereumService {
             });
 
             return response.data.result;
-        } catch (error) {
+        } catch (error: any) {
             throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
         }
     }

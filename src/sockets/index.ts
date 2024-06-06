@@ -6,16 +6,16 @@ import {EthereumService} from "../services/ethereum.service";
 import {BlockchainTransactions} from "./blockchain.transactions";
 
 const server = createServer(app);
-const io = new Server(server, {
+const socketIo = new Server(server, {
     cors: {
         origin: ['http://localhost:63342', 'https://admin.socket.io'],
         credentials: true,
     }
 });
 
-const adminIo = io.of('/admin');
+const adminIo = socketIo.of('/admin');
 
-io.on('connection', (socket) => {
+socketIo.on('connection', (socket) => {
     adminIo.on('connection', () => {
         console.log(socket.id + ' connected to admin namespace with username');
     });
@@ -24,12 +24,12 @@ io.on('connection', (socket) => {
 });
 
 const ethereumService = new EthereumService();
-const blockchainTransactions = new BlockchainTransactions(io, ethereumService);
+const blockchainTransactions = new BlockchainTransactions(socketIo, ethereumService);
 
-instrument(io, {
+instrument(socketIo, {
     auth: false
 });
 
 export {
-    io, server, blockchainTransactions
+    socketIo, server, blockchainTransactions
 }
