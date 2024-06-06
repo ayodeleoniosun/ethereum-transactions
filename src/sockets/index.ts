@@ -15,16 +15,19 @@ const socketIo = new Server(server, {
 
 const adminIo = socketIo.of('/admin');
 
+let blockchainTransactions;
+
 socketIo.on('connection', (socket) => {
+    console.log(socket.id + ' connected');
+    console.log(typeof socketIo);
+
     adminIo.on('connection', () => {
         console.log(socket.id + ' connected to admin namespace with username');
     });
 
-    console.log(socket.id + ' connected');
+    const ethereumService = new EthereumService();
+    blockchainTransactions = new BlockchainTransactions(socketIo, socket, ethereumService);
 });
-
-const ethereumService = new EthereumService();
-const blockchainTransactions = new BlockchainTransactions(socketIo, ethereumService);
 
 instrument(socketIo, {
     auth: false

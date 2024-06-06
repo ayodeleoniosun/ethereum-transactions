@@ -7,20 +7,22 @@ import {EthTransactionDto} from "../dtos/eth.transaction.dto";
 
 @Service()
 export class BlockchainTransactions {
-    public constructor(private io: any, private ethereumService: EthereumService) {
+    public constructor(private io: any, private socket: any, private ethereumService: EthereumService) {
 
     }
 
     async initializeSocket() {
-        this.io.on('connection', (socket: Socket) => {
-            this.streamTransactions(socket);
-        });
+        console.log("Initializing socket ...");
+        await this.streamTransactions(this.socket);
     }
 
     async streamTransactions(socket: Socket) {
         try {
             const latestBlockNumber = await this.ethereumService.getLatestBlockNumber();
+
             const blockTransactions = await this.ethereumService.getLatestBlockTransactions(latestBlockNumber);
+
+            console.log(`Streaming transactions for ${latestBlockNumber}`);
 
             blockTransactions.transactions.forEach((transaction: object) => {
                 this.emitTransaction(transaction, socket);
@@ -42,6 +44,8 @@ export class BlockchainTransactions {
             gasPrice: parseInt(gasPrice, 16),
             value: parseInt(value, 16),
         };
+
+        //console.log(data);
 
         //emit to "all" events room
         socket.join("all");

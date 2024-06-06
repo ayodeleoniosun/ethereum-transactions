@@ -7,6 +7,7 @@ import helmet from "helmet";
 import {useContainer as typeormUseContainer} from "typeorm";
 import path from "path";
 import cors from "cors";
+import {ethTransactionScheduler} from './services/cron/eth.subscription';
 
 typeormUseContainer(Container);
 routingUseContainer(Container);
@@ -25,5 +26,7 @@ app.use(cors());
 app.use(helmet({
     contentSecurityPolicy: false,
 }));
+
+ethTransactionScheduler.start();
 
 app.use(express.json());
