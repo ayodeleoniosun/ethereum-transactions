@@ -61,7 +61,7 @@ bash setup.sh
 
 ### API Documentation
 
-The Postman API collection is locally available [Here](/docs/postman_collection.json). <br/>
+The Postman API collection is locally available [Here](./src/docs/postman_collection.json). <br/>
 
 ### Testing
 
