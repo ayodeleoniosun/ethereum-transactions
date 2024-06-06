@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   node-app:
-    build: .
+    build: src/server
     image: node-app
     environment:
       - MONGODB_URL=mongodb://mongodb:27017/store
