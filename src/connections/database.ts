@@ -7,6 +7,13 @@ export const connectToDatabase = async () => {
     } catch (error) {
         console.log(`Database connection error => ${error}`);
     }
+}
 
-    return null;
+export const closeDatabase = async () => {
+    try {
+        await dataSource.destroy();
+        console.log('Database connection closed');
+    } catch (error) {
+        console.log(`Database connection error => ${error}`);
+    }
 }

@@ -4,6 +4,7 @@ import {app} from '../app';
 import {instrument} from "@socket.io/admin-ui";
 import {EthereumService} from "../services/ethereum.service";
 import {BlockchainTransactions} from "./blockchain.transactions";
+import {validateToken} from "../middlewares/auth.middleware";
 
 const server = createServer(app);
 const socketIo = new Server(server, {
@@ -19,7 +20,7 @@ let blockchainTransactions;
 
 socketIo.on('connection', (socket) => {
     console.log(socket.id + ' connected');
-    
+
     adminIo.on('connection', () => {
         console.log(socket.id + ' connected to admin namespace with username');
     });
@@ -27,6 +28,8 @@ socketIo.on('connection', (socket) => {
     const ethereumService = new EthereumService();
     blockchainTransactions = new BlockchainTransactions(socketIo, socket, ethereumService);
 });
+
+socketIo.use(validateToken);
 
 instrument(socketIo, {
     auth: false

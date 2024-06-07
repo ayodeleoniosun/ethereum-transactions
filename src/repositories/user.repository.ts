@@ -1,5 +1,5 @@
 import {User} from "../entities/user.entity";
-import {dataSource} from "../database/ormconfig";
+import {dataSource} from "../connections/ormconfig";
 import {Service} from "typedi";
 import {UserRegisterPayloadDto} from "../dtos/auth/user.register.payload.dto";
 
@@ -17,5 +17,9 @@ export class UserRepository {
 
     async findById(id: number): Promise<User> {
         return await dataSource.getRepository(User).findOne({where: {id}});
+    }
+
+    async deleteAll(): Promise<void> {
+        await dataSource.getRepository(User).delete({});
     }
 }

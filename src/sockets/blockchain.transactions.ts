@@ -4,6 +4,7 @@ import HttpException from "../utils/exceptions/http.exception";
 import * as HttpStatus from "http-status";
 import {Socket} from "socket.io";
 import {EthTransactionDto} from "../dtos/eth.transaction.dto";
+import {client} from '../connections/redis';
 
 @Service()
 export class BlockchainTransactions {
@@ -19,6 +20,14 @@ export class BlockchainTransactions {
     async streamTransactions(socket: Socket) {
         try {
             const latestBlockNumber = await this.ethereumService.getLatestBlockNumber();
+            const redisKey = `block-number:${latestBlockNumber}`;
+
+            const isFetchedBlockNumber = await client.get(redisKey);
+
+            if (isFetchedBlockNumber) {
+                console.log(`${latestBlockNumber} transactions already retrieved`);
+                return;
+            }
 
             const blockTransactions = await this.ethereumService.getLatestBlockTransactions(latestBlockNumber);
 
@@ -27,6 +36,8 @@ export class BlockchainTransactions {
             blockTransactions.transactions.forEach((transaction: object) => {
                 this.emitTransaction(transaction, socket);
             });
+
+            await client.set(redisKey, 1);
         } catch (error: any) {
             throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
         }

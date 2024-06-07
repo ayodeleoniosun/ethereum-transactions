@@ -1,49 +1,38 @@
-import {NextFunction, Request, Response} from "express";
-import HttpException from "../utils/exceptions/http.exception";
 import {verifyToken} from "../utils/helpers/jwt";
 import {ErrorMessages} from "../utils/enums/error.messages";
-import * as HttpStatus from 'http-status';
-import {ResponseDto} from "../dtos/responses/response.dto";
-import {ResponseStatus} from "../dtos/responses/response.interface";
-import {Service} from "typedi";
+import {Socket} from "socket.io";
 import {UserRepository} from "../repositories/user.repository";
 
-@Service()
-export class AuthMiddleware {
-    public constructor(private userRepository: UserRepository) {
-    }
+export const validateToken = async (socket: Socket, next: (err?: any) => void) => {
+    try {
+        const userRepository = new UserRepository();
 
-    validateUserToken = async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            let accessToken;
+        const token = socket.handshake.auth.token;
 
-            if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-                accessToken = req.headers.authorization.split(" ")[1];
-            }
-
-            if (!accessToken) {
-                throw new HttpException(ErrorMessages.UNAUTHENTICATED_USER, HttpStatus.UNAUTHORIZED);
-            }
-
-            const userData = verifyToken(accessToken);
-
-            if (typeof userData !== 'object') {
-                throw new HttpException(ErrorMessages.INVALID_TOKEN, HttpStatus.FORBIDDEN);
-            }
-
-            const isValidUser = await this.userRepository.findById(userData.id);
-
-            if (!userData || !isValidUser) {
-                throw new HttpException(ErrorMessages.INVALID_TOKEN, HttpStatus.FORBIDDEN);
-            }
-
-            res.locals.user = userData;
-
-            return next();
-        } catch (err: any) {
-            const errorResponse = new ResponseDto(ResponseStatus.ERROR, err.message);
-
-            return res.status(err.statusCode ?? HttpStatus.UNAUTHORIZED).json(errorResponse);
+        if (!token) {
+            console.log(`Socket authentication error => ${ErrorMessages.UNAUTHENTICATED_USER}`);
+            return;
         }
+
+        const userData = verifyToken(token);
+
+        if (typeof userData !== 'object') {
+            console.log(`Socket authentication error => ${ErrorMessages.INVALID_TOKEN}`);
+            return;
+        }
+
+        const isValidUser = await userRepository.findById(userData.id);
+
+        if (!userData || !isValidUser) {
+            console.log(`Socket authentication error => ${ErrorMessages.INVALID_TOKEN}`);
+            return;
+        }
+
+        (socket as any).user = userData;
+
+        return next();
+    } catch (err: any) {
+        console.log(`Socket authentication error => ${err.message}`);
+        return;
     }
 }

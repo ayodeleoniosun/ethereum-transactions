@@ -13,6 +13,6 @@ export class CustomErrorHandler implements ExpressErrorMiddlewareInterface {
 
         const errorResponse = new ResponseDto(ResponseStatus.ERROR, errorMessage);
 
-        return response.status(error.statusCode ?? HttpStatus.BAD_REQUEST).json(errorResponse);
+        return response.status(HttpStatus.UNPROCESSABLE_ENTITY).json(errorResponse);
     }
 }

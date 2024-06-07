@@ -1,4 +1,5 @@
-import {IsDefined, IsEmail, IsNotEmpty, IsString, MaxLength} from "class-validator";
+import {IsDefined, IsEmail, IsNotEmpty, IsString, MaxLength, MinLength} from "class-validator";
+import {ErrorMessages} from "../../utils/enums/error.messages";
 
 export class UserRegisterPayloadDto {
     @IsDefined()
@@ -14,11 +15,12 @@ export class UserRegisterPayloadDto {
     lastname: string;
 
     @IsDefined()
-    @IsEmail()
+    @IsEmail({}, {message: ErrorMessages.INVALID_EMAIL_SUPPLIED})
     email: string;
 
     @IsDefined()
     @IsNotEmpty()
     @IsString()
+    @MinLength(8, {message: ErrorMessages.PASSWORD_MIN_LEGNTH_ERROR})
     password: string;
 }
