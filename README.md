@@ -54,17 +54,7 @@ cd ethereum-transactions
 - Copy `.env.example` to `.env` i.e `cp .env.example .env` especially the jwt secret
 - Update all the variables as needed
 
-#### Step 4: Dockerize app
-
-```bash
-bash setup.sh
-```
-
-### API Documentation
-
-The Postman API collection is locally available [Here](./src/docs/postman_collection.json). <br/>
-
-### Socket.io connection between the server and client
+### Step 4: Socket.io authenticated connection between the server and client
 
 The `client/index.html` must be launched and the port specified in `client/js/script.js` should be the same as the port
 running on the docker container as shown below:
@@ -94,6 +84,16 @@ where `63342` is the client port.
 
 `https://admin.socket.io` is for displaying the different socket activities, where the server URL upon launching would
 be `http://localhost:3001` where `3001` can be updated to the container port.
+
+#### Step 5: Dockerize app
+
+```bash
+bash setup.sh
+```
+
+### API Documentation
+
+The Postman API collection is locally available [Here](./src/docs/postman_collection.json). <br/>
 
 ### Automated Testing
 
