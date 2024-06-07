@@ -3,7 +3,7 @@ import {app} from '../../src/app';
 import {ErrorMessages} from "../../src/utils/enums/error.messages";
 import * as HttpStatus from 'http-status';
 import {ResponseStatus} from "../../src/dtos/responses/response.interface";
-import {closeDatabase, connectToDatabase} from "../../src/database/connection";
+import {closeDatabase, connectToDatabase} from "../../src/connections/database";
 import {UserRepository} from "../../src/repositories/user.repository";
 import {registerPayload} from "../fixtures/user.payload";
 import {SuccessMessages} from "../../src/utils/enums/success.messages";
@@ -12,7 +12,6 @@ describe('AuthController', () => {
     const userRepository = new UserRepository();
 
     beforeAll(async () => {
-        process.env.NODE_ENV = 'testing';
         await connectToDatabase();
     });
 

@@ -14,7 +14,7 @@
     "test:dev": "jest --watch",
     "test": "jest --config jest.config.js --runInBand --verbose --coverage --forceExit",
     "migration:create": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:create",
-    "migrate": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d src/database/ormconfig.ts"
+    "migrate": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d src/connections/ormconfig.ts"
   },
   "repository": {
     "type": "git",

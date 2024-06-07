@@ -29,10 +29,11 @@ This application is meant to stream transactions on the blockchain in real time.
 ### Technologies Stack
 
 * Node.js/Typescript.
-* Socket.io
+* Socket.io.
 * MySQL.
 * TypeORM.
 * TypeDi.
+* Redis.
 
 ### Installation
 
@@ -50,7 +51,7 @@ cd ethereum-transactions
 
 #### Step 3: Setup environment variable
 
-- Copy `.env.example` to `.env` i.e `cp .env.example .env`
+- Copy `.env.example` to `.env` i.e `cp .env.example .env` especially the jwt secret
 - Update all the variables as needed
 
 #### Step 4: Dockerize app
@@ -63,9 +64,41 @@ bash setup.sh
 
 The Postman API collection is locally available [Here](./src/docs/postman_collection.json). <br/>
 
-### Testing
+### Socket.io connection between the server and client
 
-An end-to-end test and unit tests are written for the routes and services. <br/>
+The `client/index.html` must be launched and the port specified in `client/js/script.js` should be the same as the port
+running on the docker container as shown below:
+
+```
+const socket = io('http://localhost:3001', {
+    auth: {
+        token: 'test_token'
+    }
+});
+```
+
+where `3001` is the container port and `test_token` should be updated with the jwt token retrieved from login endpoint.
+
+Moreso, the port specified in `src/sockets/index.ts` must be the same as the `client` port as shown below:
+
+```
+const socketIo = new Server(server, {
+    cors: {
+        origin: ['http://localhost:63342', 'https://admin.socket.io'],
+        credentials: true,
+    }
+});
+```
+
+where `63342` is the client port.
+
+`https://admin.socket.io` is for displaying the different socket activities, where the server URL upon launching would
+be `http://localhost:3001` where `3001` can be updated to the container port.
+
+### Automated Testing
+
+An end-to-end test and unit tests are written for the authentications as I couldn't complete the tests for ethereum and
+streaming related tasks. <br/>
 
 To run test, use the following command:
 

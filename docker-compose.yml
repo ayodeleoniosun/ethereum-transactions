@@ -16,6 +16,7 @@ services:
       - DB_NAME=$DB_NAME
     depends_on:
       - mysqldb
+      - redis
     volumes:
       - .:/app
     networks:
@@ -33,6 +34,13 @@ services:
       - MYSQL_DATABASE=$DB_NAME
     volumes:
       - db:/var/lib/mysql
+    networks:
+      - node-network
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
     networks:
       - node-network
 

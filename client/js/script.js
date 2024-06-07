@@ -1,6 +1,11 @@
 let messages = document.getElementById('messages');
 
-const socket = io('http://localhost:3001');
+const socket = io('http://localhost:3001', {
+    auth: {
+        token: 'test_token'
+    }
+});
+
 io('http://localhost:3001/admin');
 
 socket.on('connect', () => {
