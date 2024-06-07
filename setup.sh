@@ -16,4 +16,4 @@ echo "${PINK}Running migrations ..."
 
 docker-compose exec app npm run migrate
 
-echo "${GREEN} Application dockerized!"
+echo "${GREEN} Application dockerized and started!"
